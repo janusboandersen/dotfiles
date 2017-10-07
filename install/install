@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# Run all dotfile installers using bash
+
+# Change dir to this executable's dir parent folder
+cd "$()"/..
+
+# Run homebrew via Brewfile
+echo "> brew bundle"
+brew bundle
+
