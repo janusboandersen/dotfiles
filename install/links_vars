@@ -1,0 +1,5 @@
+export DOTFILES="${HOME}/.dotfiles"
+export GITUSERNAME="janusboandersen"
+
+ln -s "${DOTFILES}/vim/.vimrc" "{$HOME}/.vimrc"
+
