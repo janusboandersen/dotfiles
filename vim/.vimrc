@@ -49,10 +49,10 @@ set listchars=tab:▸\ ,eol:¬
 set bs=2 "A more sane backspace mode
 set autoindent "copies the indentation level from previous line
 set expandtab "Use spaces instead of tabs
-set tabstop=4 "Length of a tab character 
+set tabstop=4 "Length of a tab character - but only if tab characters are actually inserted
+set softtabstop=4 "Ensures that backspace will delete as much as the others put in
 set shiftwidth=4 "How much whitespace to add/remove with indent de-indent in normal mode
 "set smarttab "mostly for tabs inside body of text
-"softtabstop=x "Finetunes the amount of whitespace to be inserted
 
 "Let tab and indent settings vary for different filetypes
 if has("autcmd")
