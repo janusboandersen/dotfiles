@@ -16,7 +16,7 @@ brew 'zsh'
 brew 'zsh-completions'
 brew 'mas'
 brew 'heroku-toolbelt'
-
+brew 'boost'
 
 #Cask section
 cask 'iterm2'

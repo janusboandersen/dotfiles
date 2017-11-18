@@ -22,15 +22,20 @@ task :install_homebrew do
         `brew update`
         `brew update`
     end
-
-    puts "Bundling all apps from Brewfile"
-    `brew bundle`
-
 end
 
 desc "Install apps from homebrew"
 task :install_apps => [:install_homebrew] do
     puts "Installing apps via Homebrew..."
+    `brew bundle`
+end
+
+desc "Set up Git"
+task :setup_git => [:install_apps] do
+    puts "Setting up Homebrewed Git"
+    # git config --global core.autocrlf input
+    # git config --global user.name = "Janus Bo Andersen"
+    # git config --globl user.email janus@janusboandersen.dk
 end
 
 desc "Install Zshell and oh-my-zsh library"

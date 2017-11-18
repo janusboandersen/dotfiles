@@ -4,6 +4,10 @@ set nocompatible
 filetype plugin on
 filetype on
 
+"ENCODING: Enable UTF-8 encoding
+set encoding=utf-8 "The encoding displayed on-screen
+set fileencoding=utf-8 "The encoding written to file
+
 "TRAINING WHEELS:
 noremap <Up> <nop>
 noremap <Down> <nop>
@@ -30,6 +34,7 @@ set path+=** "enable searching filepath recursively
 syntax on "let VIM overwrite and use standards
 "syntax enable "keeps current color settings
 "set number "line numbers on each line
+set relativenumber
 set ruler "shows <line, character>-location at the bottom of the window
 
 "SEARCH AND MATCHING: Search settings
