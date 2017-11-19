@@ -136,14 +136,16 @@ task :link_dotfiles do
 	    # Yes: Check if it is a link to the right file
 	#Dir.foreach(dirname) { |filename| block }
 	
-	filename = ".vimrc"
 	rcdir = File.join(Dir.pwd, "rc")
-	link_with_options(rcdir, Dir.home, filename)
+	filenames = Dir.foreach(rcdir).select { |filename| !( filename == "." || filename == ".." ) }
+	puts "Files to be symlinked: #{filenames.join(', ')}"
+	
+	filenames.each { |filename| link_with_options(rcdir, Dir.home, filename) }
 end
 
 desc "Perform complete install"
-task :install_complete => [:install_apps, :link_dotfiles, :setup_git] do
-    puts "Performing complete install."
+task :install_complete => [:install_apps, :setup_zsh, :link_dotfiles, :setup_git] do
+	puts "Complete install done."
 end
 
 
