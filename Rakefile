@@ -1,8 +1,28 @@
 # run rake -T to see available tasks to run
 # run rake -P to see all tasks and dependencies
 
-desc "Install Xcode command line tools"
-task :install_xcode do
+desc "Determine Operating System and Package manager to use"
+task :determine_os do
+    kernel = `$(uname)`.chomp
+    case kernel
+    when "Darwin"
+        #
+        install_os = "mac"
+        pckg_mgr = "homebrew"
+    when "Linux"
+        version = `cat /proc/version/` 
+        if (version =~ /Debian/) then
+            install_os = "debian" #Debian and Ubuntu
+            pckg_mgr = "apt"
+        else
+            # To be updated for Fedora, Red Hat
+        end
+    end
+end
+
+desc "Install command line tools"
+task :install_commandline do
+    # 
     # install the Xcode command line tools (compilers mainly)
     #if File.exist? `xcode-select -p`
     `xcode-select --install`
