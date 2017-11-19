@@ -1,66 +1,108 @@
 # run rake -T to see available tasks to run
 # run rake -P to see all tasks and dependencies
 
+desc "Add a layer of protection against inadvertent running"
+task :default do
+    puts "Please run rake -T to see available tasks"
+end
+
+
 desc "Determine Operating System and Package manager to use"
 task :determine_os do
-    kernel = `$(uname)`.chomp
-    case kernel
+    puts "Determining your Operating System and Package Manager"
+    kernel_name = `echo $(uname)`.chomp
+    case kernel_name
     when "Darwin"
-        #
-        install_os = "mac"
-        pckg_mgr = "homebrew"
+        $install_os = "mac"
+        $pckg_mgr = "homebrew"
     when "Linux"
+	#Determine the distro to set the right package manager
         version = `cat /proc/version/` 
         if (version =~ /Debian/) then
-            install_os = "debian" #Debian and Ubuntu
-            pckg_mgr = "apt"
+            $install_os = "linux" #Debian and Ubuntu
+            $pckg_mgr = "apt-get"
         else
             # To be updated for Fedora, Red Hat
+	    exit "Your OS is not supported"
         end
     end
+    puts "Proceeding with installation for #{$install_os} using #{$pckg_mgr}"
 end
 
-desc "Install command line tools"
-task :install_commandline do
-    # 
-    # install the Xcode command line tools (compilers mainly)
-    #if File.exist? `xcode-select -p`
-    `xcode-select --install`
-    `xcodebuild --license approve`
-end
 
-desc "Install homebrew: brew and cask"
-task :install_homebrew do
-    puts "Installing homebrew..."
-    if `which brew` =~ /brew/
-        puts "Homebrew already installed, updating..."
-        `brew update`
-    else
-        #Get homebrew boostrapped with ruby
+desc "Install build tools"
+task :install_build_tools  => [:determine_os] do
+    puts "Installing command line build tools"
+    case $install_os
+    when "mac" # install the Xcode command line tools (compilers mainly)
+        puts "Installing Xcode command line tools..."
+	if File.directory?(`xcode-select -p`.chomp) then
+	    puts "Xcode CLI already installed!"
+	else
+	    system "sudo xcode-select --install"
+	    system "sudo xcodebuild --license approve"
+	    puts "Done!"
+	end
 
-        `brew doctor`
-        `brew update`
-        `brew update`
+	puts "Installing homebrew package manager for #{$install_os}"
+	if `which brew` =~ /brew/ then
+	    puts "Homebrew is already installed. Updating Homebrew..."
+	    system "brew doctor"
+	    system "brew update"
+	    system "brew update"
+	else
+	    system "/usr/bin/ruby -e #{ %Q{$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install) } }"
+	    system "brew doctor"
+	    system "brew update"
+	    system "brew update"
+	    puts "Homebrew done!"
+	end
+
+    when "linux"
+	puts "Getting build tools"
+	system "sudo #{$pckg_mgr} update"
+        system "sudo #{$pckg_mgr} install build-essential"	
     end
 end
 
-desc "Install apps from homebrew"
-task :install_apps => [:install_homebrew] do
-    puts "Installing apps via Homebrew..."
-    `brew bundle`
+
+desc "Install apps from list (Brewfile or apt)"
+task :install_apps => [:install_build_tools] do
+	case $pckg_mgr
+	when "homebrew"
+		system "brew bundle --file=homebrew/Brewfile"
+	when "apt-get"
+		system "source apt/Aptfile.sh"
+	end
 end
+
 
 desc "Set up Git"
-task :setup_git => [:install_apps] do
-    puts "Setting up Homebrewed Git"
-    # git config --global core.autocrlf input
-    # git config --global user.name = "Janus Bo Andersen"
-    # git config --globl user.email janus@janusboandersen.dk
+task :setup_git do
+    puts "Setting up Git"
+    puts "Please enter your full user name: "
+    user_name = STDIN.gets.chomp
+    puts "Please enter your Git user email: "
+    user_email = STDIN.gets.chomp
+
+    puts "Setting autocrlf to false"
+    system "git config --global core.autocrlf false"
+    
+    puts "Setting Git user name to #{ %Q{ user_name } }"
+    system %Q[git config --global user.name "#{ user_name }"]
+
+    puts "Setting Git user email to #{ user_email }"
+    system "git config --global user.email #{ user_email }"
+
+    puts "Setting Git core editor to vim"
+    system "git config --global core.editor vim"
 end
 
-desc "Install Zshell and oh-my-zsh library"
-task :install_zsh do
-    if ENV["SHELL"] =~ /zsh/  #pattern matching
+
+desc "Setup Zshell and oh-my-zsh framework"
+task :setup_zsh => [:install_apps] do
+    puts "Setting up Zshell. This probably only works if Git is set up."
+    if ENV["SHELL"] =~ /zsh/  
         puts "Using zsh already."
     else
         puts "Switching to zsh..."
@@ -71,10 +113,20 @@ task :install_zsh do
         puts "Setting chsh."
         system %Q{chsh -s `which zsh`}
         system %Q{export SHELL=`which zsh`}
-    end 
+    end
+
+    puts "Setting up Oh-my-zsh"
+    if File.directory("~/.oh-my-zsh") then
+    	puts "Oh-my-zsh already installed!"
+    else
+	puts "Fetching and installing Oh-my-zsh"
+	system %Q[sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"]
+	puts "Oh-my-zsh done."
+    end
+
 end
 
 desc "Symlink dotfiles"
-task :install_dotfiles => [:install_homebrew, :install_zsh, :install_apps] do
+task :link_dotfiles do
     # link dotfiles to their proper directories
 end
