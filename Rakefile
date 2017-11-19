@@ -1,9 +1,7 @@
-# run rake -T to see available tasks to run
-# run rake -P to see all tasks and dependencies
 
-desc "Add a layer of protection against inadvertent running"
+desc "Info-guard against inadvertent execution"
 task :default do
-    puts "Please run rake -T to see available tasks"
+    puts "Please run rake -T to see available tasks, or rake -P for list of dependencies."
 end
 
 
