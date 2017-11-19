@@ -13,8 +13,8 @@ brew 'git'			# Newest version of Github CLI
 #brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
 #brew 'vim'			# Editor -- consider adding options to control linking to Python 3 vs 2
 #brew 'tmux' 			# TMUX terminal multiplexer
-#brew 'zsh'			# Zshell
-#brew 'zsh-completions'		# Tab-completions for Zshell
+brew 'zsh'			# Zshell
+brew 'zsh-completions'		# Tab-completions for Zshell
 #brew 'mas'			# Mac App Store CLI
 #brew 'heroku-toolbelt' 		#Heroku deployment CLI for Rails apps
 #brew 'boost' 			# C++ boost libraries
@@ -27,4 +27,4 @@ brew 'git'			# Newest version of Github CLI
 #cask 'garmin-express'
 #cask 'spotify'
 #cask 'evernote'
-cask 'skype'
+#cask 'skype'

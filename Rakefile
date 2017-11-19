@@ -70,9 +70,9 @@ desc "Install apps from list (Brewfile or apt)"
 task :install_apps => [:install_build_tools] do
 	case $pckg_mgr
 	when "homebrew"
-		system "brew bundle --file=homebrew/Brewfile"
+		system "brew bundle --file=package/Brewfile"
 	when "apt-get"
-		system "source apt/Aptfile.sh"
+		system "source package/Aptfile.sh"
 	end
 end
 
@@ -101,7 +101,8 @@ end
 
 desc "Setup Zshell and oh-my-zsh framework"
 task :setup_zsh => [:install_apps] do
-    puts "Setting up Zshell. This probably only works if Git is set up."
+    # At this point, the newest Zsh version should be in PATH, via Homebrew, apt-get, etc.
+    puts "Setting up Zshell."
     if ENV["SHELL"] =~ /zsh/  
         puts "Using zsh already."
     else
@@ -110,18 +111,19 @@ task :setup_zsh => [:install_apps] do
             puts "Putting zsh in approved shells -> /etc/shells"
             system %Q{echo `which zhs` | sudo tee -a /etc/shells}
         end
-        puts "Setting chsh."
+        puts "Changing default shell to Zsh (chsh -s)"
         system %Q{chsh -s `which zsh`}
-        system %Q{export SHELL=`which zsh`}
+        system %Q{export SHELL=`which zsh`} #Only for this session
     end
 
-    puts "Setting up Oh-my-zsh"
-    if File.directory("~/.oh-my-zsh") then
+    puts "Setting up Oh-my-zsh..."
+    if File.directory?("~/.oh-my-zsh") then
     	puts "Oh-my-zsh already installed!"
+	#Perhaps find a way to automatically trigger an update of Oh-my-zsh
     else
-	puts "Fetching and installing Oh-my-zsh"
+	puts "Fetching and installing Oh-my-zsh."
 	system %Q[sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"]
-	puts "Oh-my-zsh done."
+	puts "Oh-my-zsh installation done."
     end
 
 end
@@ -129,4 +131,68 @@ end
 desc "Symlink dotfiles"
 task :link_dotfiles do
     # link dotfiles to their proper directories
+	# Check if the current file exists
+	  # Yes: Check if the current file is a link
+	    # Yes: Check if it is a link to the right file
+	#Dir.foreach(dirname) { |filename| block }
+	
+	filename = ".vimrc"
+	rcdir = File.join(Dir.pwd, "rc")
+	link_with_options(rcdir, Dir.home, filename)
 end
+
+desc "Perform complete install"
+task :install_complete => [:install_apps, :link_dotfiles, :setup_git] do
+    puts "Performing complete install."
+end
+
+
+
+
+# HELPER METHODS BELOW HERE
+
+def link_with_options(rcdir, targetdir, filename)
+	in_file = File.join(rcdir, filename)
+	out_file = File.join(targetdir, filename)
+
+	if File.exists? out_file then
+	    puts "The file #{ out_file } already exists. Do you want to..."
+	    c = get_user_choice(%w(o b s), %Q{(o)verwrite, (b)ackup and replace, or (s)kip?})
+	    
+	    case c
+	    when 'o'
+		puts "Overwriting..."    
+		puts "Creating symlink #{in_file} -> #{out_file}." 
+		FileUtils.rm(out_file)
+		FileUtils.ln_s(in_file, out_file)
+
+	    when 'b'
+		timestamp = Time.now.strftime('%Y%m%d_%H%M%S')
+		backup_file = out_file + ".bak-" + timestamp
+		puts "Backing up to #{backup_file}..."
+		puts "Creating symlink #{in_file} -> #{out_file}." 
+		FileUtils.cp(out_file, backup_file)
+		FileUtils.rm(out_file)
+		FileUtils.ln_s(in_file, out_file)
+
+	    when 's'
+		# pass
+		puts "Skipping #{in_file}..."
+	    end	
+	
+	else #File does not exist
+	    # symlink in_file out_file
+		puts "Creating symlink #{in_file} -> #{out_file}." 
+		FileUtils.ln_s(in_file, out_file)
+	end
+end
+
+def get_user_choice(choice_array, annotation_string)
+    user_choice = ""
+    while ( !choice_array.include? user_choice )
+	puts annotation_string
+	user_choice = STDIN.gets.chomp
+    end
+    return user_choice
+end
+
