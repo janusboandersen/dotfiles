@@ -77,23 +77,29 @@ end
 
 desc "Set up Git"
 task :setup_git do
-    puts "Setting up Git"
-    puts "Please enter your full user name: "
-    user_name = STDIN.gets.chomp
-    puts "Please enter your Git user email: "
-    user_email = STDIN.gets.chomp
-
+    puts "Setting global Git options:"
     puts "Setting autocrlf to false"
     system "git config --global core.autocrlf false"
-    
-    puts "Setting Git user name to #{ %Q{ user_name } }"
+
+    puts "Please enter your full user name: "
+    user_name = STDIN.gets.chomp
+    puts "Setting Git user name to #{ user_name }"
     system %Q[git config --global user.name "#{ user_name }"]
 
+    puts "Please enter your Git user email: "
+    user_email = STDIN.gets.chomp
     puts "Setting Git user email to #{ user_email }"
     system "git config --global user.email #{ user_email }"
 
-    puts "Setting Git core editor to vim"
-    system "git config --global core.editor vim"
+    puts "Please enter your Github user account (one word): "
+    user_account= STDIN.gets.chomp
+    puts "Setting Github user account to #{ user_account }"
+    system "git config --global github.user #{ user_account }"
+
+    puts "Please enter your favorite editor for Git: "
+    user_editor = STDIN.gets.chomp
+    puts "Setting Git core editor to #{ user_editor }"
+    system "git config --global core.editor #{ user_editor }"
 end
 
 
@@ -135,7 +141,7 @@ task :link_dotfiles do
 	#Dir.foreach(dirname) { |filename| block }
 	
 	rcdir = File.join(Dir.pwd, "rc")
-	filenames = Dir.foreach(rcdir).select { |filename| !( filename == "." || filename == ".." ) }
+	filenames = Dir.foreach(rcdir).select { |filename| !( filename == "." || filename == ".." || filename =~ /.swp/ ) }
 	puts "Files to be symlinked: #{filenames.join(', ')}"
 	
 	filenames.each { |filename| link_with_options(rcdir, Dir.home, filename) }
