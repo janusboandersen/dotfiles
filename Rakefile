@@ -147,6 +147,13 @@ task :link_dotfiles do
 	filenames.each { |filename| link_with_options(rcdir, Dir.home, filename) }
 end
 
+
+desc "Install vim-plug"
+task :install_vim_plug do
+    system %Q{curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim}
+end
+
+
 desc "Perform complete install"
 task :install_complete => [:install_apps, :setup_zsh, :link_dotfiles, :setup_git] do
 	puts "Complete install done."

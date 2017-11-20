@@ -4,6 +4,9 @@ set nocompatible
 filetype plugin on
 filetype on
 
+"COMPATIBILITY: 
+set background=dark
+
 "ENCODING: Enable UTF-8 encoding
 set encoding=utf-8 "The encoding displayed on-screen
 set fileencoding=utf-8 "The encoding written to file
@@ -89,7 +92,21 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
 "Shortcuts for switching between open buffers
 nnoremap <silent> <C-Left> :bn<CR>
 nnoremap <silent> <C-Right> :bp<CR>
-  
+
+"PLUGINS: Settings and Shortcuts related to using plugins:
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+
+"PLUGINS:
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+
+" Initialize plugin system
+call plug#end()
  
 " SETUP VERSION 1
 
