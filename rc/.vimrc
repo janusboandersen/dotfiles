@@ -92,6 +92,7 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
 "Shortcuts for switching between open buffers
 nnoremap <silent> <C-Left> :bn<CR>
 nnoremap <silent> <C-Right> :bp<CR>
+nnoremap <silent> <C-Down> :bd<CR>
 
 "PLUGINS: Settings and Shortcuts related to using plugins:
 map <C-n> :NERDTreeToggle<CR>

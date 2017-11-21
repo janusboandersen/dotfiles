@@ -4,8 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 
-# Bootstrap personal stuff using .bash_profile
-source ${HOME}/.bash_profile
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -54,7 +52,7 @@ ZSH_THEME="af-magic"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git brew python rbenv ruby pip rails osx bundler rake extract)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -82,6 +80,14 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
+#
+# Bootstrap personal stuff using .bash_profile
+source ${HOME}/.bash_profile
+
+# Fix colors in Zsh completions list (Issue with BSD vs. GNU system)
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+autoload -Uz compinit
+compinit
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"

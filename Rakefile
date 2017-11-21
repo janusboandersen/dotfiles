@@ -128,6 +128,7 @@ task :setup_zsh => [:install_apps] do
 	puts "Fetching and installing Oh-my-zsh."
 	system %Q[sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"]
 	puts "Oh-my-zsh installation done."
+    puts "Remember to reload your shell!"
     end
 
 end
@@ -157,6 +158,7 @@ end
 desc "Perform complete install"
 task :install_complete => [:install_apps, :setup_zsh, :link_dotfiles, :setup_git] do
 	puts "Complete install done."
+    puts "Remember to reload your shell!"
 end
 
 
