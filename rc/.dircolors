@@ -6,6 +6,9 @@
 #
 # More Information at
 # https://github.com/seebi/dircolors-solarized
+#
+# See the xterm 256 colors colorspace at
+# https://jonasjacek.github.io/colors/
 
 # Term Section
 TERM Eterm

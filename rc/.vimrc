@@ -97,14 +97,17 @@ nnoremap <silent> <C-Down> :bd<CR>
 "PLUGINS: Settings and Shortcuts related to using plugins:
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+"let g:user_emmet_leader_key='<C-Z>'
 
-"PLUGINS:
+"PLUGINS: Using Vim-Plug
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
+" Emmet-completions
+Plug 'mattn/emmet-vim'
 
 " Initialize plugin system
 call plug#end()

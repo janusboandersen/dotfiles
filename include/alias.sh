@@ -6,10 +6,52 @@ alias wss="cd ~/workspace/study"
 alias wsp="cd ~/workspace/projects"
 
 
-# LS related
+# Listing related - only those that override or supplement Zsh
 alias ls="gls --color=auto -F"  #recursive for all other ls-related commands
+alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+
+
+# File system related
+mkpath () { mkdir -p "$1" && cd "$1"; }
+
 
 # Navigation
+alias c='clear'
+cdl() { builtin cd "$@"; l; }               # Always list directory contents upon 'cd'
+alias cd..='cd ../'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../../'
 
-# 
+
+# Environment overview 
 alias path='echo -e ${PATH//:/\\n}'
+alias edit='vim '
+
+# Searching
+alias qfind="find . -name "
+
+
+# Networking
+alias myip="curl ip.appspot.com"
+alias tcpcons="lsof -i"                         #Show active TCP connections
+alias openports="sudo lsof -i | grep LISTEN"    #Show all open ports
+
+
+# Open URLs
+url-open() {
+    # Scipting for almost platform independent opening of URLs in their correct MIME handler
+    if which open > /dev/null; then
+        open "$@"                           # Mac OS
+    elif which xdg-open > /dev/null; then
+        xdg-open "$@"                       # Unix and some Linux desktops
+    elif which gnome-open > /dev/null; then
+        gnome-open "$@"                     # Older Gnome desktops
+    elif which gvfs-open > /dev/null; then
+        gvfs-open "$@"                      # Newer Gnome desktops
+    else
+        echo "Could not detect the web browser to use."
+    fi
+}
