@@ -3,13 +3,14 @@
 
 structure-cpp() {
     # Purpose: Build a C++ project directory structure    
+    # Attempts to be aligned with the GNU C++ directory structure
 
     # Build the directory structure
-    mkdir -p {archive,build,data,doc,deps,obj/{debug,release},src,test}
+    mkdir -p {archive,build,data,doc,deps,include,obj/{debug,release},src/{c++11,shared},test}
 
     # Insert your templates
     cp ${DOTFILES_TEMPLATE}/Makefile ./
-    cp ${DOTFILES_TEMPLATE}/main.cpp ./src
+    cp ${DOTFILES_TEMPLATE}/main.cpp ./src/c++11
 
 }
 
