@@ -6,7 +6,7 @@ structure-cpp() {
     # Attempts to be aligned with the GNU C++ directory structure
 
     # Build the directory structure
-    mkdir -p {archive,build,data,doc,deps,include,obj/{debug,release},src/{c++11,shared},test}
+    mkdir -p {archive,build,data,doc,deps,include,obj/{debug,release},src/{c++11,c++14,c++17,legacy},test}
 
     # Insert your templates
     cp ${DOTFILES_TEMPLATE}/Makefile ./

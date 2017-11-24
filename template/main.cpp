@@ -6,6 +6,7 @@
 // General design ideas: 
 // Source code organization: 
 // Assumptions: 
+// Spec: 
 // To Do and missing pieces: 
 
 #include <iostream>

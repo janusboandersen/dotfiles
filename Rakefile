@@ -38,7 +38,7 @@ task :install_build_tools  => [:determine_os] do
 	    puts "Xcode CLI already installed!"
 	else
 	    system "sudo xcode-select --install"
-	    system "sudo xcodebuild --license approve"
+	    system "sudo xcodebuild -license approve"
 	    puts "Done!"
 	end
 

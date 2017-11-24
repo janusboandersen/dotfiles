@@ -28,7 +28,9 @@ alias .5='cd ../../../../../'
 
 # Environment overview 
 alias path='echo -e ${PATH//:/\\n}'
-alias edit='vim '
+alias edit='${EDITOR}'
+alias e='${EDITOR}'
+alias v='vim'
 
 # Searching
 alias qfind="find . -name "
