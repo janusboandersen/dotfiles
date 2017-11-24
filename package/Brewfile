@@ -6,15 +6,17 @@ tap 'homebrew/bundle'
 tap 'puma/puma'
 
 #Brew section
-brew 'git'			# Newest version of Github CLI
+#brew coreutils
+#brew gdb
+#brew 'git'			# Newest version of Github CLI
 #brew 'rbenv' 			# Lightweight Ruby environment manager
 #brew 'ruby-build'		# Control ruby versions
 #brew 'python3' 			# Newest version of Python 3
 #brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
 #brew 'vim'			# Editor -- consider adding options to control linking to Python 3 vs 2
 #brew 'tmux' 			# TMUX terminal multiplexer
-brew 'zsh'			# Zshell
-brew 'zsh-completions'		# Tab-completions for Zshell
+#brew 'zsh'			# Zshell
+#brew 'zsh-completions'		# Tab-completions for Zshell
 #brew 'mas'			# Mac App Store CLI
 #brew 'heroku-toolbelt' 		#Heroku deployment CLI for Rails apps
 #brew 'boost' 			# C++ boost libraries
