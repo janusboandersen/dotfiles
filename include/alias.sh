@@ -5,6 +5,9 @@ alias ws="cd ~/workspace"
 alias wss="cd ~/workspace/study"
 alias wsp="cd ~/workspace/projects"
 
+# Set workdir stable over different processes
+setworkdir () { echo "$(PWD)" > ~/.workdir }
+gowork () { builtin cd "$(cat ~/.workdir)" }
 
 # Listing related - only those that override or supplement Zsh
 alias ls="gls --color=auto -F"  #recursive for all other ls-related commands

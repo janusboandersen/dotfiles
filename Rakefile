@@ -192,7 +192,7 @@ def link_with_options(rcdir, targetdir, filename)
 
 	    when 's'
 		# pass
-		puts "Skipping #{in_file}..."
+		puts "Skipping #{in_file}...\n"
 	    end	
 	
 	else #File does not exist

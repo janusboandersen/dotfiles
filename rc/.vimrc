@@ -21,6 +21,11 @@ inoremap <Down> <nop>
 inoremap <Left> <nop>
 inoremap <Right> <nop>
 
+"WRAPPED TEXT: long lines
+noremap j gj
+noremap k gk
+noremap 0 g0
+noremap $ g$
 
 "FILE SWITCHING: Enable hidden unsaved buffers, to switch files without saving
 set hidden
@@ -37,8 +42,15 @@ set path+=** "enable searching filepath recursively
 syntax on "let VIM overwrite and use standards
 "syntax enable "keeps current color settings
 "set number "line numbers on each line
-set relativenumber
 set ruler "shows <line, character>-location at the bottom of the window
+
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 
 "SEARCH AND MATCHING: Search settings
 set hlsearch "Use highlighted search
@@ -93,21 +105,52 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
 nnoremap <silent> <C-Left> :bn<CR>
 nnoremap <silent> <C-Right> :bp<CR>
 nnoremap <silent> <C-Down> :bd<CR>
+nnoremap <silent> <C-Up> :ls<CR>
+
+
 
 "PLUGINS: Settings and Shortcuts related to using plugins:
+
+" ----- AIRLINE -----
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" Choose a theme for airline
+let g:airline_theme='luna'
+"https://github.com/vim-airline/vim-airline/wiki/Screenshots
+
+
+" ----- NERDTREE -----
+" NerdTree toggle
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+
+" ----- EMMET -----
+"Leader key for Emmet
 "let g:user_emmet_leader_key='<C-Z>'
+
+
 
 "PLUGINS: Using Vim-Plug
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
-" On-demand loading
+" Airline for some status bars
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" On-demand loading of NerdTree
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Emmet-completions
 Plug 'mattn/emmet-vim'
+
+" YouCompleteMe for auto-completion features
+" Plug 'Valloric/YouCompleteMe'
+
 
 " Initialize plugin system
 call plug#end()
