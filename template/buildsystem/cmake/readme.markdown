@@ -58,6 +58,12 @@ Use `add_executable()` or `add_library()` to declare your module
 | Interface libraries | `add_library(INTERFACE)` |
 | Alias libraries     | `add_library(ALIAS)`     |
 
+The _interface libraries_ and _alias libraries_ are CMake concepts.
+* An interface library is one that does not build anything, suitable for a header-only dependency. See that section.
+* An alias library target is clarification / namespaced re-definition of a target (hence alias). See section "Using namespaces".
+
+    * See section "Using namespaces"
+
 ### Public, Private, and Interface
 Like the distinction between public and private in a class; A library consisting of a compiled binary (implementation) and a header (interface)  might need one set of flags to compile the binary (the implementation), and another set of flags (perhaps just a subset) in order to utilize or consume the header (the interface). Header-only libraries are not separately compiled.
 
@@ -67,7 +73,17 @@ Options/flags are scoped according to whether they act on interface, implementat
 * PUBLIC is for both the interface and the implementation.
 
 ### Using namespaces
-Namespaces look like in C++. E.g. a dependency on the Boost library `program_options` can be referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way - and avoiding variables.
+Namespaces look like in C++. For example, a dependency for the Boost library `program_options` is typically referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way. Namespaces are actually "Alias libraries". See section "CMake Target types".
+
+* A namespace is an alias library target. As such, it is a clarification / namespaced re-definition of a target (hence alias)
+    * Declare it as:
+        * `add_library(detail::platform_specific ALIAS platform_specific)`
+    * Consume it as:
+        * `target_link_libraries(mytarget detail::platform_specific)`
+
+The advantage:
+* Dependencies specified with `::` are interpreted as *definitely* being a CMake target, and so an error will *definitely* be thrown if it doesn't exists (i.e. it doesn't just delegate to the compiler to find a library somewhere).
+* Most external libraries that are found using `find_library()` will provide such namespaced facilities. See section on external / system-wide libraries.
 
 ### Declare your target's dependencies
 Use `target_link_libraries(some_target <item>)` to declare dependencies. 
@@ -77,9 +93,9 @@ Use `target_link_libraries(some_target <item>)` to declare dependencies.
 
 `<item>` can be (and is resolved in this order):
 * A CMake target
-* A linker flag (prefixes a hyphen - to give -WhateverYouTyped)
+* A linker flag (prefixes a hyphen `-` to pass the flag `-WhateverYouTyped` to the compiler/linker)
 * A full library path (that can be checked)
-* A library name on disk (thus adds -l to give -lWhateverYouTyped and lets the compiler handle it...)
+* A library name on disk (prefixes `-l` to give `-lWhateverYouTyped` and passes this to let the compiler/linker handle it...)
 
 Also:
 * Remember scoping
@@ -95,14 +111,20 @@ Results:
     * Linking
 * Determine compatibility
 
-#### Header-only dependencies
+#### Header-only dependencies (-> INTERFACE target types)
 to do
+    * Declare it as:
+        * `add_library(boost_mpl INTERFACE)`
+        * `target_compile_definitions(boost_mpl INTERFACE BOOST_MPL_NO_PREPROCESSED_HEADERS)`
+        * `target_include_directories(boost_mpl INTERFACE "3rdparty/boost/mpl")`
+    * Consume it as:
+        * `target_link_libraries(my_exe boost_mpl)`
 
-#### Libraries in your repo
+#### Libraries in your repo (-> STATIC, OBJECT or SHARED target types)
 These will either (hopefully) have their own CMake file - then use `add_subdirectory()` to bring that recipe into scope. and are brought into scope by ??? `add_subdirectory` or `add_library`??
 
-#### System installed/external libraries
-Use `find_package()` to bring these into scope, e.g. `find_package(Boost 1.40 COMPONENTS program_options REQUIRED)`.
+#### System installed/external libraries (-> SHARED target types)
+Use `find_package()` to bring these into scope, e.g. `find_package(Boost 1.40 COMPONENTS program_options REQUIRED)`. Probably is available as `Boost::program_options` afterwards.
 
 # CMake system
 
