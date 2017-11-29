@@ -6,10 +6,12 @@
     * Requirements to compile
     * Requirements to link
 
-# The idea behind Modern CMake is to help you focus on modules and dependencies instead of compiler flags
+# The idea behind Modern CMake is to help you focus on build-targets and their dependencies instead of compiler flags
 CMake is a generator to create a buildsystem (Makefile, Ninja, etc.), almost independent of platforms.
 
-Let CMake take control of deciding when you need which flags, and instead focus on which modules are needed for your code. You define your project in terms of modular elements (= targets), their dependencies (= target link...), and the settings they need in order to work (= properties). CMake will help you keep the dependency graph clean, avoid circular dependencies, etc.
+Let CMake take control of deciding when you need which flags, and instead focus on which modules are needed for your code. You define your project in terms of modular elements (= targets), their dependencies (= target link...), and the settings they need in order to work (= properties).
+
+Using CMake will force good-practice modular source code management. CMake will help you keep the dependency graph clean, avoid circular dependencies, etc.
 
 # Compatibility and specific behaviors (policies)
 CMake has newer and better language features and behaviors the higher the version number. The modern era of CMake began with 2.8.12. The current latest version is 3.10 as of October 2017.
@@ -18,7 +20,7 @@ For compatibility, however, explicitly specifying a required version number allo
 
 Individual behaviors are called policies. A specific policy can be enabled, by requiring it by its policy number (CMPxxxx).
 
-# Setting up a Modern CMake project: Guidelines
+# A Modern CMake project: Guidelines
 _Do_:
 * Work (and think) with focus on targets and properties.
 * Write target-centric code
@@ -70,6 +72,25 @@ These will either (hopefully) have their own CMake file - then use `add_subdirec
 #### System installed/external libraries
 Use `find_package()` to bring these into scope, e.g. `find_package(Boost 1.40 COMPONENTS program_options REQUIRED)`.
 
+# CMake system
+
+## CMake works in three phases
+1. *Configure*: Parses the CMakeLists.txt file(s). Any if/else expressions are evaluated here. Variables are expanded during this phase.
+2. *Compute*: Computes the dependencies. Generator expressions `$<bool:...>` are evaluated after this phase.
+3. *Generate*: Makes the actual buildsystem files (Makefile, etc.)
+
+## CMake language features
+CMake has its own macro language (oh no, yet another language...).
+* `${variable_name}` expands / inserts the variable's value. Try to avoid using this in new projects.
+* `if(condition)` / `else()` / `endif()`
+* `$<boolean:...>` generator expression is a conditional variable. Examples:
+    * `$<1:...>` will always return ...
+    * `$<0:...>` will never return ...
+    * `$<Config:Debug>` will return 1 in Debug config or 0 otherwise.
+    * Can be nested: `$<$<Config:Debug>:...>` will return ... if in debug mode
+    * Can use variables (variables are expanded in configure phase):
+        * Configure phase: `$<$<BOOL:${WIN32}>: ...>` becomes
+        * Generate phase: `$<$<BOOL:1>:...>` (true) or `$<$<BOOL:>...>` (false)
 
 
 # Resources and inspiration
