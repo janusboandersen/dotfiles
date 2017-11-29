@@ -85,6 +85,8 @@ Example:
 ### Declare your target's properties / requirements
 Use functions with signatures like `target_xxx(my_target <mode> <item>)` to declare properties, requirements or dependencies for a given target (e.g. compiler features, linked libraries, etc.).
 
+Repeated calls for the same target will append items.
+
 Modern CMake prefers to set minimum requirements for the feature sets your code needs, rather than setting explicit compiler flags, in order to maintain flexibility. Explicit flags will vary across compilers, and perhaps such flags are overly restrictive. For example, setting `-std=c++11` prevents using the C++17 standard automatically later, if that should become relevant.
 
 `<mode>`: refers to the modes <PUBLIC|PRIVATE|INTERFACE> thath set scope of any property. See section below.
@@ -194,6 +196,9 @@ Parameters:
 
 
 # CMake system
+
+## The CMake object
+CMake is declaration driven, rather than data-driven. A binary target in CMake is 
 
 ## CMake works in three phases
 1. *Configure*: Parses the CMakeLists.txt file(s). Any if/else expressions are evaluated here. Variables are expanded during this phase.
