@@ -1,11 +1,3 @@
-# https://github.com/Wigner-GPU-Lab/Teaching/tree/master/CMake/Lesson1_CompileC_CPP
-# https://github.com/onqtam/awesome-cmake
-# https://cmake.org/cmake/help/v3.10/manual/cmake-buildsystem.7.html
-# https://rix0r.nl/blog/2015/08/13/cmake-guide/
-# https://asmbits.blogspot.com/2017/06/idiomatic-cmake.html
-# https://www.slideshare.net/DanielPfeifer1/cmake-48475415
-# https://github.com/ttroy50/cmake-examples
-# https://www.youtube.com/watch?v=eC9-iRN2b04
 
 # Modern CMake
 * Target-based buildsystem definition
@@ -37,10 +29,11 @@ _Do_:
 * ...
 
 _Don't_:
-* Use functions that work directly on the directory structure:
+* Use functions that affect compilation settings for all targets (because it becomes hard to reason about and hard to manage, and doesn't scale well):
     * `add_compile_options()`, `include_directories()`, `link_directories()`, `link_libraries()`.
-* Write explicit compiler flags as settings - let CMake decide
-* Use variables and globbing directly in the code (that should only be in the Makefile)
+* Write explicit compiler flags as settings (instead let CMake decide to maintain portability and flexibility)
+* Use variables in the CMake spec (because it introduces the risk for hard to debug errors - e.g. a mis-spelled variable name resolves to blank text)
+* Use file globbing directly in the CMake spec (because it doesn't add the flexibility that you think, the buildsystem Makefile doesn't get affected when files are added, yet it introduces non-target-focused code).
 
 ## Declare your project
 You declare your project by something like `project(projectname VERSION 1.0.0 LANGUAGES CXX)`.
@@ -48,10 +41,12 @@ You declare your project by something like `project(projectname VERSION 1.0.0 LA
 ## Bring all required elements into scope
 Your project has its own CMake file, wherein the project is declared. External libraries/modules that you depend on, either available system-wide (system installed) or just in your project repo, should be brought into scope for CMake to be aware of them... Whether for versioning requirements or for building. Nothing should be left unmentioned.
 
-### Namespaces
-Namespaces look like in C++. E.g. a dependency on the Boost library `program_options` can be referenced as `Boost::program_options`
+### Declare your targets and their properties
+Use `add_executable()` or `add_library()` to declare your module
+* Use `target_xxx` to declare dependencies and properties that are required by that target (e.g. compiler features, libraries, etc.)
+* Use <PUBLIC|PRIVATE|INTERFACE> to set scope of dependency or property
 
-### Public, Private, and Interface flags
+### Public, Private, and Interface
 Like the distinction between public and private in a class; A library consisting of a compiled binary (implementation) and a header (interface)  might need one set of flags to compile the binary (the implementation), and another set of flags (perhaps just a subset) in order to utilize or consume the header (the interface). Header-only libraries are not separately compiled.
 
 Options/flags are scoped according to whether they act on interface, implementation, or both.
@@ -59,20 +54,30 @@ Options/flags are scoped according to whether they act on interface, implementat
 * PRIVATE is for the binary / implementation only.
 * PUBLIC is for both the interface and the implementation.
 
-### Declare your module and its properties
-Use `add_executable()` or `add_library()` to declare your module
-* Use `target_xxx` to declare properties that are required by that module (e.g. flags)
+### Using namespaces
+Namespaces look like in C++. E.g. a dependency on the Boost library `program_options` can be referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way - and avoiding variables.
 
-### Declare your dependencies
+### Declare your target's dependencies
 Use `target_link_libraries()` to declare dependencies.
+* Remember scoping
 
-### System installed libraries
+#### Header-only dependencies
+to do
+
+#### Libraries in your repo
+These will either (hopefully) have their own CMake file - then use `add_subdirectory()` to bring that recipe into scope. and are brought into scope by ??? `add_subdirectory` or `add_library`??
+
+#### System installed/external libraries
 Use `find_package()` to bring these into scope, e.g. `find_package(Boost 1.40 COMPONENTS program_options REQUIRED)`.
 
-### Libraries in your repo
-These will hopefully have their own CMake file, and are brought into scope by ??? `add_subdirectory` or `add_library`??
 
 
-`target_link_library`
-`project`
-
+# Resources and inspiration
+[](https://github.com/Wigner-GPU-Lab/Teaching/tree/master/CMake/Lesson1_CompileC_CPP)
+[](https://github.com/onqtam/awesome-cmake)
+[](https://cmake.org/cmake/help/v3.10/manual/cmake-buildsystem.7.html)
+[](https://rix0r.nl/blog/2015/08/13/cmake-guide/)
+[](https://asmbits.blogspot.com/2017/06/idiomatic-cmake.html)
+[](https://www.slideshare.net/DanielPfeifer1/cmake-48475415)
+[](https://github.com/ttroy50/cmake-examples)
+[](https://www.youtube.com/watch?v=eC9-iRN2b04)

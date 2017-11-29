@@ -89,6 +89,10 @@ if has("autcmd")
     autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
 endif
 
+"PARENS:
+noremap <leader>( vaWxi()<Esc>P
+noremap <leader>[ vaWxi[]<Esc>P
+noremap <leader>{ vaWxi{}<Esc>P
 
 "SHORTCUTS: Nice shorthands
 "Shortscuts for line shifts and improved escaping
