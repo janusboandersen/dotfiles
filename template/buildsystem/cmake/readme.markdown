@@ -48,6 +48,16 @@ Use `add_executable()` or `add_library()` to declare your module
 * Use `target_xxx` to declare dependencies and properties that are required by that target (e.g. compiler features, libraries, etc.)
 * Use <PUBLIC|PRIVATE|INTERFACE> to set scope of dependency or property
 
+### CMake Target types
+| Target type         | Function call            |
+|---------------------|--------------------------|
+| Executables         | `add_executable`         |
+| Shared libraries    | `add_library(SHARED)`    |
+| Static libraries    | `add_library(STATIC)`    |
+| Object libraries    | `add_library(OBJECT)`    |
+| Interface libraries | `add_library(INTERFACE)` |
+| Alias libraries     | `add_library(ALIAS)`     |
+
 ### Public, Private, and Interface
 Like the distinction between public and private in a class; A library consisting of a compiled binary (implementation) and a header (interface)  might need one set of flags to compile the binary (the implementation), and another set of flags (perhaps just a subset) in order to utilize or consume the header (the interface). Header-only libraries are not separately compiled.
 
@@ -60,8 +70,30 @@ Options/flags are scoped according to whether they act on interface, implementat
 Namespaces look like in C++. E.g. a dependency on the Boost library `program_options` can be referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way - and avoiding variables.
 
 ### Declare your target's dependencies
-Use `target_link_libraries()` to declare dependencies.
+Use `target_link_libraries(some_target <item>)` to declare dependencies. 
+* This function declares a dependency between one target and zero-to-many other targets.
+* This could be between your executable (target1) and a library (target2), which you may or may not be building concurrently with your executable. 
+* Target2 may also have it's own dependencies, and then the dependency graph expands.
+
+`<item>` can be (and is resolved in this order):
+* A CMake target
+* A linker flag (prefixes a hyphen - to give -WhateverYouTyped)
+* A full library path (that can be checked)
+* A library name on disk (thus adds -l to give -lWhateverYouTyped and lets the compiler handle it...)
+
+Also:
 * Remember scoping
+
+Example:
+* `target_link_libraries(some_target another_target)`
+
+Results:
+* Link to `another_target`
+* Determine build order
+* Consume usage requirements
+    * Compiling
+    * Linking
+* Determine compatibility
 
 #### Header-only dependencies
 to do
@@ -83,7 +115,7 @@ Use `find_package()` to bring these into scope, e.g. `find_package(Boost 1.40 CO
 CMake has its own macro language (oh no, yet another language...).
 * `${variable_name}` expands / inserts the variable's value. Try to avoid using this in new projects.
 * `if(condition)` / `else()` / `endif()`
-* `$<boolean:...>` generator expression is a conditional variable. Examples:
+* `$<boolean:...>` generator expression is a conditional variable. These can be used inside commands. Examples:
     * `$<1:...>` will always return ...
     * `$<0:...>` will never return ...
     * `$<Config:Debug>` will return 1 in Debug config or 0 otherwise.
@@ -91,7 +123,8 @@ CMake has its own macro language (oh no, yet another language...).
     * Can use variables (variables are expanded in configure phase):
         * Configure phase: `$<$<BOOL:${WIN32}>: ...>` becomes
         * Generate phase: `$<$<BOOL:1>:...>` (true) or `$<$<BOOL:>...>` (false)
-
+    * Read a property at generate time that is set at configure time:
+        * `$<$<TARGET_PROPERTY:WITH_THREADS>:USE_THREADS>` could be used inside a command like target_compile_definitions(hello PRIVATE ...) and will reflect set_property(TARGET hello PROPERTY WITH_THREDS ON)
 
 # Resources and inspiration
 [](https://github.com/Wigner-GPU-Lab/Teaching/tree/master/CMake/Lesson1_CompileC_CPP)
