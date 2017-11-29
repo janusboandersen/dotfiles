@@ -1,4 +1,4 @@
-#use cmake to run the file or ccmake to get a visual overview of the build system (t for toggle advanced mode)
+#use call `cmake ..` from the build dir to run, or ccmake to get a visual overview of the build system (t for toggle advanced mode)
 
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(my_project_name VERSION my_version_number LANGUAGES CXX)
 
 #set the executable target and the source
-add_executable(main.exe main.cpp)
+add_executable(main main.cpp)
 
 #require certain compile features, or language versions - see list:
 #https://cmake.org/cmake/help/v3.10/manual/cmake-compile-features.7.html
