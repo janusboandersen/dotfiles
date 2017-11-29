@@ -74,13 +74,16 @@ Example:
 
 
 ### Declare your target's properties / requirements
-Use functions with signatures like `target_xxx(my_target <item>)` to declare properties, requirements or dependencies for a give target (e.g. compiler features, linked libraries, etc.).
-* Use the modes <PUBLIC|PRIVATE|INTERFACE> to set scope of any property.
+Use functions with signatures like `target_xxx(my_target <mode> <item>)` to declare properties, requirements or dependencies for a give target (e.g. compiler features, linked libraries, etc.).
+* Use the modes <PUBLIC|PRIVATE|INTERFACE> to set scope of any property. See section below.
 
-| Target requirement        | Function call                   | <item> result example   |
-|---------------------------|---------------------------------|-------------------------|
-| Compiler options          | `target_compile_options()`      | `-fPIC`                 |
-| Compiler definitions      | `target_compile_definitions()`  | `-DSOMEDEF`             |
+| Target requirement        | Function call                   | `<item>` result example   |
+|---------------------------|---------------------------------|---------------------------|
+| Compiler options          | `target_compile_options()`      | `-fPIC`                   |
+| Compiler definitions      | `target_compile_definitions()`  | `-DSOMEDEF`               |
+| Include directories       | `target_include_directories()`  | `-I/foo/bar`              |
+| Link libraries            | `target_link_libraries()`       | `-l/path/to/library`      |
+| Sources                   | `target_sources()`              |                           |
 
 
 ### Use Public, Private, and Interface modes to scope the effect of target requirements
