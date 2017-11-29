@@ -40,18 +40,18 @@ _Don't_:
 ## Declare your project
 You declare your project by something like `project(projectname VERSION 1.0.0 LANGUAGES CXX)`.
 
-## Bring all required elements into scope
-Your project has its own CMake file, wherein the project is declared. External libraries/modules that you depend on, either available system-wide (system installed) or just in your project repo, should be brought into scope for CMake to be aware of them... Whether for versioning requirements or for building. Nothing should be left unmentioned.
+## Bring all relevant elements into scope
+* Your project has its own CMake file (CMakeLists.txt), wherein the project is declared, and the ultimate build-target (executable) is declared.
+* All external libraries that your project depends on, either available system-wide (system installed) or from within your own project repo, should be brought into scope for CMake to be aware of them (from #include header-only dependencies to the entire Boost library)
+* In the context of CMake, all dependencies are also targets per se, and a complete dependency graph must be built for the entire project.
+* Nothing should be left unmentioned: Whether for outright building, for making an installer, or just for managing versioning requirements.
 
-### Declare your targets and their properties
-Use `add_executable()` or `add_library()` to declare your module
-* Use `target_xxx` to declare dependencies and properties that are required by that target (e.g. compiler features, libraries, etc.)
-* Use <PUBLIC|PRIVATE|INTERFACE> to set scope of dependency or property
 
 ### CMake Target types
+
 | Target type         | Function call            |
 |---------------------|--------------------------|
-| Executables         | `add_executable`         |
+| Executables         | `add_executable()`       |
 | Shared libraries    | `add_library(SHARED)`    |
 | Static libraries    | `add_library(STATIC)`    |
 | Object libraries    | `add_library(OBJECT)`    |
@@ -62,28 +62,39 @@ The _interface libraries_ and _alias libraries_ are CMake concepts.
 * An interface library is one that does not build anything, suitable for a header-only dependency. See that section.
 * An alias library target is clarification / namespaced re-definition of a target (hence alias). See section "Using namespaces".
 
-    * See section "Using namespaces"
 
-### Public, Private, and Interface
-Like the distinction between public and private in a class; A library consisting of a compiled binary (implementation) and a header (interface)  might need one set of flags to compile the binary (the implementation), and another set of flags (perhaps just a subset) in order to utilize or consume the header (the interface). Header-only libraries are not separately compiled.
+### Declare your targets
+Use `add_executable()` or `add_library()` to declare your targets.
+* See available CMake target types above.
+* Use functions with signatures like `target_xxx` to declare dependencies and properties that are required by that target (e.g. compiler features, linked libraries, etc.).
+* Use the modes <PUBLIC|PRIVATE|INTERFACE> to set scope of any property.
 
-Options/flags are scoped according to whether they act on interface, implementation, or both.
-* INTERFACE is for the header / interface only.
-* PRIVATE is for the binary / implementation only.
-* PUBLIC is for both the interface and the implementation.
+Example:
+* `add_executable(my_exe main.cpp)`
 
-### Using namespaces
-Namespaces look like in C++. For example, a dependency for the Boost library `program_options` is typically referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way. Namespaces are actually "Alias libraries". See section "CMake Target types".
 
-* A namespace is an alias library target. As such, it is a clarification / namespaced re-definition of a target (hence alias)
-    * Declare it as:
-        * `add_library(detail::platform_specific ALIAS platform_specific)`
-    * Consume it as:
-        * `target_link_libraries(mytarget detail::platform_specific)`
+### Declare your target's properties / requirements
+Use functions with signatures like `target_xxx(my_target <item>)` to declare properties, requirements or dependencies for a give target (e.g. compiler features, linked libraries, etc.).
+* Use the modes <PUBLIC|PRIVATE|INTERFACE> to set scope of any property.
 
-The advantage:
-* Dependencies specified with `::` are interpreted as *definitely* being a CMake target, and so an error will *definitely* be thrown if it doesn't exists (i.e. it doesn't just delegate to the compiler to find a library somewhere).
-* Most external libraries that are found using `find_library()` will provide such namespaced facilities. See section on external / system-wide libraries.
+| Target requirement        | Function call                   | <item> result example   |
+|---------------------------|---------------------------------|-------------------------|
+| Compiler options          | `target_compile_options()`      | `-fPIC`                 |
+| Compiler definitions      | `target_compile_definitions()`  | `-DSOMEDEF`             |
+
+
+### Use Public, Private, and Interface modes to scope the effect of target requirements
+Modes define the scoping of the properties / requirements of a target. Kind of works like the distinction between public and private in a class.
+* Who should this requirement concern?
+    * Modes scope according to whether a requirement acts on interface, implementation, or both.
+    * INTERFACE is for the header / interface only.
+    * PRIVATE is for the binary / implementation only.
+    * PUBLIC is for both the interface and the implementation.
+
+Rationale:
+* Consider a library consisting of a compiled binary (implementation) and a header (interface) 
+* It might need one set of flags to compile the binary (the implementation), and another set of flags (perhaps a subset) in order to utilize or consume the header (the interface). Header-only libraries are not separately compiled, so whatever requirements are set will need to flow to any targets that depend on the header.
+
 
 ### Declare your target's dependencies
 Use `target_link_libraries(some_target <item>)` to declare dependencies. 
@@ -97,9 +108,6 @@ Use `target_link_libraries(some_target <item>)` to declare dependencies.
 * A full library path (that can be checked)
 * A library name on disk (prefixes `-l` to give `-lWhateverYouTyped` and passes this to let the compiler/linker handle it...)
 
-Also:
-* Remember scoping
-
 Example:
 * `target_link_libraries(some_target another_target)`
 
@@ -110,6 +118,21 @@ Results:
     * Compiling
     * Linking
 * Determine compatibility
+
+
+### Using namespaces for dependencies
+Namespaces look like in C++. For example, a dependency for the Boost library `program_options` is typically referenced as `Boost::program_options`. This is useful for specifying library names and their components in an easy, portable way. Namespaces are actually "Alias libraries". See section "CMake Target types".
+
+* A namespace is an alias library target. As such, it is a clarification / namespaced re-definition of a target (hence alias)
+    * Declare it as:
+        * `add_library(detail::platform_specific ALIAS platform_specific)`
+    * Consume it as:
+        * `target_link_libraries(mytarget detail::platform_specific)`
+
+The advantage:
+* Dependencies specified with `::` are interpreted as *definitely* being a CMake target, and so an error will *definitely* be thrown if it doesn't exists (i.e. it doesn't just delegate to the compiler to find a library somewhere).
+* Most external libraries that are found using `find_library()` will provide such namespaced facilities. See section on external / system-wide libraries.
+
 
 #### Header-only dependencies (-> INTERFACE target types)
 to do
