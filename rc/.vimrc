@@ -102,8 +102,8 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :source $MYVIMRC<CR>
     
 "Shortcuts for switching between open buffers
-nnoremap <silent> <C-Left> :bn<CR>
-nnoremap <silent> <C-Right> :bp<CR>
+nnoremap <silent> <C-Left> :bp<CR>
+nnoremap <silent> <C-Right> :bn<CR>
 nnoremap <silent> <C-Down> :bd<CR>
 nnoremap <silent> <C-Up> :ls<CR>
 
@@ -125,7 +125,7 @@ let g:airline_theme='luna'
 
 " ----- NERDTREE -----
 " NerdTree toggle
-map <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 
 " ----- EMMET -----
