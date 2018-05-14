@@ -134,7 +134,7 @@ let NERDTreeShowHidden=1
 
 " ----- EMMET -----
 "Leader key for Emmet
-"let g:user_emmet_leader_key='<C-Z>'
+"let g:user_emmet_leader_key='<c-e>'
 
 
 

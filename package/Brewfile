@@ -30,6 +30,9 @@ tap 'puma/puma'
 #brew 'mas'			# Mac App Store CLI
 
 #Cask section
+#cask 'mactex'      #LaTeX compiler and many packages ~1gb
+#cask 'basictex'    #LaTeX compiler ~90mb
+#cask 'texmaker'    #rich text editor
 #cask 'iterm2'			# iTerm2 - an improvement on Terminal
 #cask 'dashlane'			# Password manager
 #cask 'google-chrome'	
@@ -37,3 +40,5 @@ tap 'puma/puma'
 #cask 'spotify'
 #cask 'evernote'
 #cask 'skype'
+#cask 'dropbox'
+#cask 'anki'
