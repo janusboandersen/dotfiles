@@ -3,9 +3,9 @@ g-copy() {
 	#Inserts a git-related setting or file from the dotfiles into the current directory
 	#Requires that the shell is set up with a $DOTFILES variable
 	local SOURCEFILE=${1:-readme.md}
-	local SOURCEDIR=${DOTFILES:-"${HOME}/.dotfiles"}
+	local SOURCEDIR=${DOTFILES_INCLUDE:-"${HOME}/dotfiles/include"}
 	local PASTEDIR=${2:-"."}
-	cp "${SOURCEDIR}/git/${SOURCEFILE}" "${PASTEDIR}"
+	cp "${SOURCEDIR}/${SOURCEFILE}" "${PASTEDIR}"
 }
 
 g-ignore() {
