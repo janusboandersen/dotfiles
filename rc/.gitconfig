@@ -26,3 +26,5 @@
 	editor = vim
 	autocrlf = false
 [github]
+[github]
+	user = janusboandersen

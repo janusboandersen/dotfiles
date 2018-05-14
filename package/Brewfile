@@ -5,24 +5,35 @@
 tap 'homebrew/bundle'
 tap 'puma/puma'
 
-#Brew section
-brew 'coreutils'    #GNU updated core utils
-brew 'git'			# Newest version of Github CLI
-brew 'rbenv' 			# Lightweight Ruby environment manager
-brew 'ruby-build'		    # Control ruby versions
-brew 'python3' 			    # Newest version of Python 3
-brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
-brew 'lua'                  # Lua scripting language
-brew 'vim'			# Editor -- consider adding options to control linking to Python 3 vs 2
-brew 'tmux' 			# TMUX terminal multiplexer
-brew 'zsh'			# Zshell
-brew 'zsh-completions'		# Tab-completions for Zshell
-brew 'mas'			# Mac App Store CLI
-brew 'heroku-toolbelt' 		#Heroku deployment CLI for Rails apps
-brew 'boost' 			# C++ boost libraries
-brew 'mc' 			# Midnight commander - just like Norton Commander
+# -- Brew install section --
+#brew coreutils
+#brew gdb
+#brew cmake
+#brew 'boost' 			# C++ boost libraries
+#brew bear          # C-language family compile commands for GNU Make to JSON file
+#
+#brew 'zsh'			# Zshell
+#brew 'zsh-completions'		# Tab-completions for Zshell
+#brew 'git'			# Newest version of Github CLI
+#brew 'vim'			# Editor -- consider adding options to control linking to Python 3 vs 2
+#brew 'tmux' 			# TMUX terminal multiplexer
+#brew 'mc' 			# Midnight commander - just like Norton Commander
+#
+#brew 'rbenv' 			# Lightweight Ruby environment manager
+#brew 'ruby-build'		# Control ruby versions
+#brew 'heroku-toolbelt' 		#Heroku deployment CLI for Rails apps
+#
+#brew 'python3' 			# Newest version of Python 3
+#
+#brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
+#
+#brew 'mas'			# Mac App Store CLI
+
 
 #Cask section
+#cask 'mactex'      #LaTeX compiler and many packages ~1gb
+#cask 'basictex'    #LaTeX compiler ~90mb
+#cask 'texmaker'    #rich text editor
 #cask 'iterm2'			# iTerm2 - an improvement on Terminal
 #cask 'dashlane'			# Password manager
 #cask 'google-chrome'	
@@ -30,3 +41,5 @@ brew 'mc' 			# Midnight commander - just like Norton Commander
 #cask 'spotify'
 #cask 'evernote'
 #cask 'skype'
+#cask 'dropbox'
+#cask 'anki'
