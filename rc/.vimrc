@@ -68,7 +68,7 @@ set listchars=tab:▸\ ,eol:¬
 "Sane defaults
 set bs=2 "A more sane backspace mode
 set autoindent "copies the indentation level from previous line
-set expandtab "Use spaces instead of tabs
+set noexpandtab "Use spaces instead of tabs
 set tabstop=4 "Length of a tab character - but only if tab characters are actually inserted
 set softtabstop=4 "Ensures that backspace will delete as much as the others put in
 set shiftwidth=4 "How much whitespace to add/remove with indent de-indent in normal mode
@@ -87,12 +87,15 @@ if has("autcmd")
     autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+    autocmd FileType txt setlocal ts=4 sts=4 sw=4 noexpandtab "make tabs in text files for csv and tsv conversion
+
 endif
 
 "PARENS:
 noremap <leader>( vaWxi()<Esc>P
 noremap <leader>[ vaWxi[]<Esc>P
 noremap <leader>{ vaWxi{}<Esc>P
+noremap <leader>< viWxi<Char-0x9><Char-0x3c><Char-0x3e><Esc>P
 
 "SHORTCUTS: Nice shorthands
 "Shortscuts for line shifts and improved escaping
