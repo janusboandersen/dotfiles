@@ -97,6 +97,9 @@ noremap <leader>[ vaWxi[]<Esc>P
 noremap <leader>{ vaWxi{}<Esc>P
 noremap <leader>< viWxi<Char-0x9><Char-0x3c><Char-0x3e><Esc>P
 
+"JOIN LINES WITH TAB
+nmap <silent> <leader>j A<Char-0x9><Esc>J
+
 "SHORTCUTS: Nice shorthands
 "Shortscuts for line shifts and improved escaping
 nmap <C-j> ddp
