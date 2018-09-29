@@ -1,0 +1,61 @@
+# -------------------------
+# PATH variables
+# -------------------------
+  # added by Anaconda3 4.3.0 installer
+  #  export PATH="/Users/janusboandersen/anaconda/bin:$PATH"
+
+  # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+  #export PATH="$PATH:$HOME/.rvm/bin"
+
+  # Use the Homebrew installed version of git
+  #Look in /etc/paths
+
+  # For RBENV - never alongside RVM
+  #export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+
+
+# -----------------
+# Change the prompt
+# -----------------
+  export PS1="=> "
+
+# -------------------------
+# Add color to the terminal
+# -------------------------
+
+
+# -------------------------
+# Useful aliases
+# -------------------------
+
+  #Shell
+  alias ll="ls -FGlAhp"
+  #alias ll="ls -lahG"
+
+  #MongoDB
+  alias mdb="mongod --dbpath /Users/janusboandersen/data/db"
+
+
+ # -------------------------
+ # RVM (Ruby Package Manager)
+ # -------------------------
+
+#  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+
+ # -------------------------
+ # Various for Python VirtualEnv
+ # -------------------------
+
+#  export WORKON_HOME=$HOME/envs
+#  source /usr/local/bin/virtualenvwrapper.sh
+#  export PIP_VIRTUALENV_BASE=$
+
+  # -------------------------
+  # Various for the Coursera ROR course
+  # -------------------------
+  #export WEB_URL='http://www.coursera.com'
+
+# added by Anaconda3 5.2.0 installer
+# export PATH="/Users/janusboandersen/anaconda3/bin:$PATH"

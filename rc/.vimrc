@@ -68,10 +68,10 @@ set listchars=tab:▸\ ,eol:¬
 "Sane defaults
 set bs=2 "A more sane backspace mode
 set autoindent "copies the indentation level from previous line
-set noexpandtab "Use spaces instead of tabs
-set tabstop=4 "Length of a tab character - but only if tab characters are actually inserted
-set softtabstop=4 "Ensures that backspace will delete as much as the others put in
-set shiftwidth=4 "How much whitespace to add/remove with indent de-indent in normal mode
+set expandtab "Use spaces instead of tabs
+set tabstop=2 "Length of a tab character - but only if tab characters are actually inserted
+set softtabstop=2 "Ensures that backspace will delete as much as the others put in
+set shiftwidth=2 "How much whitespace to add/remove with indent de-indent in normal mode
 "set smarttab "mostly for tabs inside body of text
 
 "Let tab and indent settings vary for different filetypes
@@ -81,9 +81,12 @@ if has("autcmd")
     "These languages have strict requirements
     autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab "require hard tabs for makefiles
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab   "require space indentation for yaml markup
-    autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab textwidth=80 "PEP 8
+    autocmd FileType C setlocal ts=2 sts=2 sw=2 expandtab  "require soft tabs EDE/ASE standard
+    autocmd FileType python setlocal ts=4 sts=4 sw=4 noexpandtab textwidth=80 "PEP 8
 
     "Customisations based on house-style (arbitrary)
+    autocmd BufEnter *.c setlocal ts=8 sts=8 sw=8 expandtab   "require soft tabs EDE/ASE standard
+    autocmd FileType cpp setlocal ts=2 sts=2 sw=2 expandtab  "require soft tabs EDE/ASE standard
     autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
