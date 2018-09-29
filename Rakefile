@@ -14,17 +14,21 @@ task :determine_os do
         $install_os = "mac"
         $pckg_mgr = "homebrew"
     when "Linux"
+	$install_os = "linux"
+
 	#Determine the distro to set the right package manager
-        version = `cat /proc/version/` 
+        version = `cat /proc/version` 
         if (version =~ /Debian/) then
             $install_os = "linux" #Debian and Ubuntu
             $pckg_mgr = "apt-get"
+        elsif (version =~ /Red Hat/) then
+            $pckg_mgr = "yum"
         else
-            # To be updated for Fedora, Red Hat
+           # To be updated for other distros
 	    exit "Your OS is not supported"
         end
     end
-    puts "Proceeding with installation for #{$install_os} using #{$pckg_mgr}"
+    puts "Proceeding with installation for #{$install_os} with package manager #{$pckg_mgr}"
 end
 
 
@@ -59,18 +63,27 @@ task :install_build_tools  => [:determine_os] do
     when "linux"
 	puts "Getting build tools"
 	system "sudo #{$pckg_mgr} update"
-        system "sudo #{$pckg_mgr} install build-essential"	
+        case $pckg_mgr
+	when "apt-get"
+		system "sudo #{$pckg_mgr} install build-essential"	
+	when "yum"
+		system "sudo #{$pckg_mgr} install rpm-build"
+	end
     end
 end
 
 
 desc "Install apps from list (Brewfile or apt)"
 task :install_apps => [:install_build_tools] do
+	
+    puts "Proceeding with installation for #{$install_os} with package manager #{$pckg_mgr}"
 	case $pckg_mgr
 	when "homebrew"
 		system "brew bundle --file=package/Brewfile"
 	when "apt-get"
-		system "source package/Aptfile.sh"
+		puts %Q[Package management to be implemented]	
+	when "yum"
+		puts %Q[Package management to be implemented]	
 	end
 end
 

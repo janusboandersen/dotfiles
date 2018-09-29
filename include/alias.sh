@@ -12,7 +12,17 @@ setworkdir () { echo "$(PWD)" > ~/.workdir }
 gowork () { builtin cd "$(cat ~/.workdir)" }
 
 # Listing related - only those that override or supplement Zsh
-alias ls="gls --color=auto -F"  #recursive for all other ls-related commands
+# Use a better ls for mac and set some nice settings for linux
+#recursive for all other ls-related commands
+case "$OSTYPE" in
+	  solaris*) echo "SOLARIS LS" ;;
+	  darwin*)  alias ls="gls --color=auto -F" ;; 
+	  linux*)   alias ls="ls --color=auto -F" ;;
+	  bsd*)     echo "BSD LS" ;;
+	  msys*)    echo "WINDOWS LS" ;;
+	  *)        echo "unknown LS: $OSTYPE" ;;
+esac
+
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
 
