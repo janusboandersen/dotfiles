@@ -40,6 +40,8 @@ alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../../'
 
+# Midnight Commander
+alias mc=LANG="en_EN.UTF-8 mc"
 
 # Environment overview 
 alias path='echo -e ${PATH//:/\\n}'
