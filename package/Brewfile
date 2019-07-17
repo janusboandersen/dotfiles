@@ -9,6 +9,7 @@ tap 'puma/puma'
 brew 'coreutils'
 brew 'gdb'
 brew 'cmake'
+brew 'valgrind'
 brew 'boost' 			# C++ boost libraries
 #brew 'bear'          # C-language family compile commands for GNU Make to JSON file
 
@@ -32,6 +33,7 @@ brew 'python3' 			# Newest version of Python 3
 
 brew 'mas'			# Mac App Store CLI
 
+brew 'pandoc'		# Document converters
 
 #Cask section
 cask 'java'			#Oracle Java SDK
