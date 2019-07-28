@@ -41,7 +41,7 @@ alias .4='cd ../../../../'
 alias .5='cd ../../../../../'
 
 # Midnight Commander
-alias mc=LANG="en_EN.UTF-8 mc"
+#alias mc=LANG="en_EN.UTF-8 mc"
 
 # Environment overview 
 alias path='echo -e ${PATH//:/\\n}'
@@ -57,6 +57,10 @@ alias qfind="find . -name "
 alias myip="curl ip.appspot.com"
 alias tcpcons="lsof -i"                         #Show active TCP connections
 alias openports="sudo lsof -i | grep LISTEN"    #Show all open ports
+
+# Start PostgreSQL database
+alias pg_start "pg_ctl -D /usr/local/var/postgres start"
+alias pg_start "pg_ctl -D /usr/local/var/postgres stop"
 
 
 # Open URLs

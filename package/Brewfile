@@ -28,6 +28,9 @@ brew 'unrar'
 
 brew 'python3' 			# Newest version of Python 3
 
+#Databases
+brew 'postgresql' #PostGRESQL database
+
 #brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
 
 brew 'mas'			# Mac App Store CLI
@@ -36,6 +39,7 @@ brew 'mas'			# Mac App Store CLI
 #Cask section
 cask 'java'			#Oracle Java SDK
 cask 'mactex'      #LaTeX compiler and many packages ~1gb
+cask 'gimp'        #GNU Image Manipulation
 cask 'basictex'    #LaTeX compiler ~90mb
 cask 'texmaker'    #rich text editor
 cask 'iterm2'			# iTerm2 - an improvement on Terminal

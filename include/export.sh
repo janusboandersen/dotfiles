@@ -7,6 +7,10 @@
 # Set my favorite editor
 export EDITOR=vim
 
+# Set the locale, encoding, etc.
+export LC_ALL=da_DK.UTF-8
+export LANG=da_DK.UTF-8
+
 # Exports the LS_COLORS which is used by GNU LS (gls on mac with coreutils)
 
 case "$OSTYPE" in
