@@ -6,13 +6,16 @@ tap 'homebrew/bundle'
 tap 'puma/puma'
 
 # -- Brew install section --
-brew 'coreutils'
-brew 'gdb'
+
+# General C/C++ development
+#brew 'coreutils'   #GNU core utils - reimplementations
+brew 'gdb'          #Debugger -- for Mac this requires special treatment to get around protections
 brew 'cmake'
 brew 'valgrind'
 brew 'boost' 			# C++ boost libraries
 #brew 'bear'          # C-language family compile commands for GNU Make to JSON file
 
+# Productivity
 brew 'zsh'			# Zshell
 brew 'zsh-completions'		# Tab-completions for Zshell
 brew 'git'			# Newest version of Github CLI
@@ -20,30 +23,33 @@ brew 'vim'			# Editor -- consider adding options to control linking to Python 3 
 brew 'tmux' 			# TMUX terminal multiplexer
 brew 'mc' 			# Midnight commander - just like Norton Commander
 
+# Other utils
 brew 'p7zip'
 brew 'unrar'
+brew 'pandoc'		# Document converters
+brew 'mas'			# Mac App Store CLI
 
+# Ruby/Rails development
 #brew 'rbenv' 			# Lightweight Ruby environment manager
 #brew 'ruby-build'		# Control ruby versions
 #brew 'heroku-toolbelt' 		#Heroku deployment CLI for Rails apps
 
+# Python development
 brew 'python3' 			# Newest version of Python 3
 
-#Databases
+# Databases
 brew 'postgresql' #PostGRESQL database
 
+# JavaScript / node development
 #brew 'node --without-npm'	# Node.js without the NPM package manager. Consider installing NPM manually on the side, or use Yarn
 
-brew 'mas'			# Mac App Store CLI
-
-brew 'pandoc'		# Document converters
 
 #Cask section
 cask 'java'			#Oracle Java SDK
 cask 'mactex'      #LaTeX compiler and many packages ~1gb
 cask 'gimp'        #GNU Image Manipulation
-cask 'basictex'    #LaTeX compiler ~90mb
-cask 'texmaker'    #rich text editor
+#cask 'basictex'    #LaTeX compiler ~90mb
+#cask 'texmaker'    #rich text editor
 cask 'iterm2'			# iTerm2 - an improvement on Terminal
 cask 'dashlane'			# Password manager
 cask 'google-chrome'	
