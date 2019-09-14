@@ -5,8 +5,6 @@ alias ws="cd ~/workspace"
 alias wss="cd ~/workspace/study"
 alias wsp="cd ~/workspace/projects"
 
-alias gogpr="cd ~/Desktop/Elektronik\ Herning/02\ Semestre/Sem01/01\ Kurser/E1GPR1/"
-
 # Set workdir stable over different processes
 setworkdir () { echo "$(PWD)" > ~/.workdir }
 gowork () { builtin cd "$(cat ~/.workdir)" }
