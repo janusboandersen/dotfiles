@@ -76,3 +76,9 @@ url-open() {
         echo "Could not detect the web browser to use."
     fi
 }
+
+# Make a catch2 directory and get the latest header
+catch2() {
+  mkdir catch2
+  wget -P catch2/ https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp
+}
