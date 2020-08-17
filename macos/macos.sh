@@ -87,7 +87,7 @@ defaults write com.apple.dock autohide -bool true
 defaults write com.apple.terminal StringEncodings -array 4
 
 # Install the Solarized Dark theme for iTerm
-open "${HOME}/dotfiles/solarized.itermcolors"
+open "${HOME}/dotfiles/setting/color/solarized.itermcolors"
 
 ###############################################################################
 # Google Chrome & Google Chrome Canary                                        #
