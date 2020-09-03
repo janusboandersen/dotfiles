@@ -5,7 +5,7 @@ g-copy() {
 	local SOURCEFILE=${1:-readme.md}
 	local SOURCEDIR=${DOTFILES:-"${HOME}/dotfiles"}
 	local PASTEDIR=${2:-"."}
-	cp "${SOURCEDIR}/template/project/${SOURCEFILE}" "${PASTEDIR}"
+	cp "${SOURCEDIR}/template/manual/git-project/${SOURCEFILE}" "${PASTEDIR}"
 }
 
 g-ignore() {
